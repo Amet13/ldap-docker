@@ -1,0 +1,43 @@
+version: '3'
+services:
+  openldap:
+    image: osixia/openldap:1.2.1
+    restart: unless-stopped
+    container_name: openldap
+    env_file: ./.env
+    tty: true
+    stdin_open: true
+    volumes:
+      - /data/slapd/database:/var/lib/ldap
+      - /data/slapd/config:/etc/ldap/slapd.d
+      - /data/container:/container/service/slapd/assets/certs
+    ports:
+      - "389:389"
+      - "636:636"
+    domainname: "ldap.example.com" # important: same as hostname
+    hostname: "ldap.example.com"
+  phpldapadmin:
+    #image: osixia/phpldapadmin:latest
+    restart: unless-stopped
+    container_name: phpldapadmin
+    env_file: ./.env
+    build:
+      dockerfile: Dockerfile-phpldapadmin
+      context: ./phpldapadmin
+    ports:
+      - "80:80"
+    depends_on:
+      - openldap
+  nginx:
+    image: nginx:1.15-alpine
+    restart: unless-stopped
+    container_name: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - /etc/letsencrypt/live/ldap.example.com/fullchain.pem:/etc/nginx/fullchain.pem:ro
+      - /etc/letsencrypt/live/ldap.example.com/privkey.pem:/etc/nginx/privkey.pem:ro
+    depends_on:
+      - openldap
+      - phpldapadmin
+    ports:
+      - "443:443"
