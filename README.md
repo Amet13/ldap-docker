@@ -1,9 +1,19 @@
 # ldap-docker
 
-Run OpenLDAP, phpLDAPadmin with docker-compose
+Run [OpenLDAP](https://www.openldap.org/) and [phpLDAPadmin](http://phpldapadmin.sourceforge.net/wiki/index.php/Main_Page) using `docker-compose`
 
-1. Install docker and docker-compose
-2. Install certbot:
+1. Install `docker` and `docker-compose`
+
+```
+apt update && apt install apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+apt update && apt install docker-ce
+curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+```
+
+2. Install `certbot`:
 
 ```
 apt-get update
@@ -14,7 +24,7 @@ apt-get install certbot
 certbot certonly -d ldap.example.com
 ```
 
-3. Run:
+3. Run `docker-compose`:
 
 ```
 docker-compose up -d
@@ -27,4 +37,4 @@ LOGIN: cn=admin, dc=example, dc=com
 PASS: admin_password
 ```
 
-More info: https://www.techrepublic.com/article/how-to-populate-an-ldap-server-with-users-and-groups-via-phpldapadmin/
+How to use phpLDAPadmin: [here](https://www.techrepublic.com/article/how-to-populate-an-ldap-server-with-users-and-groups-via-phpldapadmin/)
