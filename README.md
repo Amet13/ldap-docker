@@ -24,9 +24,13 @@ apt-get install certbot
 certbot certonly -d ldap.example.com
 ```
 
-3. Run `docker-compose`:
+3. Edit env file and run `docker-compose`:
 
 ```
+cp .env_example .env
+vim .env
+...
+
 docker-compose up -d
 ```
 
