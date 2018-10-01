@@ -41,4 +41,4 @@ LOGIN: cn=admin, dc=example, dc=com
 PASS: admin_password
 ```
 
-How to use phpLDAPadmin: [here](https://www.techrepublic.com/article/how-to-populate-an-ldap-server-with-users-and-groups-via-phpldapadmin/)
+How to use phpLDAPadmin: [look here](https://www.techrepublic.com/article/how-to-populate-an-ldap-server-with-users-and-groups-via-phpldapadmin/)
